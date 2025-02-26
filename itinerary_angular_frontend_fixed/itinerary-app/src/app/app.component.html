@@ -1,0 +1,4 @@
+<button *ngIf="!isLoggedIn()" (click)="login()">Login with Google</button>
+  <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+  <p *ngIf="isLoggedIn()">Welcome, {{ userName }}!</p>
+<app-itinerary-form></app-itinerary-form>
