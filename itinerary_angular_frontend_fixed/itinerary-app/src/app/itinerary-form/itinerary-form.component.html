@@ -1,42 +1,50 @@
-<div class="container">
-    <h1>Itinerary Generator</h1>
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="destination">Destination:</label>
-        <input
-          type="text"
-          id="destination"
-          [(ngModel)]="destination"
-          name="destination"
-          required
-          placeholder="Enter destination"
-        />
-      </div>
-      <div class="form-group">
-        <label for="duration">Duration (days):</label>
-        <input
-          type="number"
-          id="duration"
-          [(ngModel)]="duration"
-          name="duration"
-          required
-          placeholder="Enter duration"
-        />
-      </div>
-      <div class="form-group">
-        <label for="preferences">Preferences:</label>
-        <textarea
-          id="preferences"
-          [(ngModel)]="preferences"
-          name="preferences"
-          placeholder="Enter preferences (e.g., museums, cafes)"
-        ></textarea>
-      </div>
-      <button type="submit">Generate Itinerary</button>
-    </form>
-  
-    <div *ngIf="itinerary" class="itinerary-result">
-      <h2>Your Itinerary:</h2>
-      <pre>{{ itinerary }}</pre>
+<div> 
+    <div *ngIf="!loading && !itinerary" class="container">
+        <h1>Itinerary Generator</h1>
+        <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <input
+            type="text"
+            id="destination"
+            [(ngModel)]="destination"
+            name="destination"
+            required
+            placeholder="Enter destination"
+            />
+        </div>
+        <div class="form-group">
+            <label for="duration">Duration (days):</label>
+            <input
+            type="number"
+            id="duration"
+            [(ngModel)]="duration"
+            name="duration"
+            required
+            placeholder="Enter duration"
+            />
+        </div>
+        <div class="form-group">
+            <label for="preferences">Preferences:</label>
+            <textarea
+            id="preferences"
+            [(ngModel)]="preferences"
+            name="preferences"
+            placeholder="Enter preferences (e.g., museums, cafes)"
+            ></textarea>
+        </div>
+        <button type="submit">Generate Itinerary</button>
+        </form>
     </div>
-  </div>
+    <div *ngIf="loading" class="loading-spinner">
+        <div class="spinner"></div>
+        <div>
+            <h1> Please wait while we create your Itinerary </h1>
+        </div>
+    </div>
+    <div *ngIf="itinerary" class="itinerary-result">
+        <h2>Your Itinerary:</h2>
+        <pre>{{ itinerary }}</pre>
+        <button (click)="refresh_form()"> Go back to form </button>
+    </div>
+<div>

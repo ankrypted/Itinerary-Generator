@@ -18,9 +18,15 @@ export class ItineraryFormComponent {
   duration: number = 0;
   preferences: string = '';
   itinerary: string = '';
+  loading: boolean = false;
 
   constructor(private http: HttpClient, private itineary_service: ItineraryGeneratorService) {}
 
+
+  refresh_form() {
+    this.loading = false;
+    this.itinerary = '';
+  }
   onSubmit() {
     const request = {
       destination: this.destination,
@@ -35,18 +41,14 @@ export class ItineraryFormComponent {
       return;
     }
 
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   'Authorization': `Bearer ${token}`
-    //   // 'Content-Type': 'application/json', // Explicitly set Content-Type
-    //   // 'Access-Control-Request-Headers': 'content-type',
-    //   // 'Cache-Control': 'no-cache'
-    // });
+    
+    this.loading = true;
 
     this.itineary_service.itineraryGenerator(request.destination, request.duration, request.preferences)
     .subscribe({
         next: (response) => {
           this.itinerary = response.itinerary;
+          this.loading = false;
         },
         error: (error) => {
           console.error('Error generating itinerary:', error);

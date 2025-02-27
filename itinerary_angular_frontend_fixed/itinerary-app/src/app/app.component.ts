@@ -13,6 +13,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   userDetails: any;
+  userName: String = '';
 
   constructor(private oauthService: OAuthService, private http: HttpClient) {}
 
@@ -61,10 +62,10 @@ export class AppComponent implements OnInit {
     return localStorage.getItem('access_token'); // ✅ Retrieve token from localStorage
   }
 
-  userName(): string {
-    const claims = this.oauthService.getIdentityClaims();
-    return claims ? claims['name'] : '';
-  }
+  // userName(): string {
+  //   const claims = this.oauthService.getIdentityClaims();
+  //   return claims ? claims['name'] : '';
+  // }
 
   /**
    * ✅ Fetch user details from backend after login
@@ -81,10 +82,10 @@ export class AppComponent implements OnInit {
       'Authorization': `Bearer ${token}` // ✅ Attach token to request
     });
 
-    this.http.get('http://localhost:8080/user', { headers }).subscribe({
-      next: (user) => {
-        this.userDetails = user;
-        console.log('User details:', user);
+    this.http.get<{email: String}>('http://localhost:8080/api/user', { headers }).subscribe({
+      next: (details) => {
+        this.userName = details.email;
+        console.log('User details:', this.userName);
       },
       error: (err) => {
         console.error('Failed to fetch user details:', err);
