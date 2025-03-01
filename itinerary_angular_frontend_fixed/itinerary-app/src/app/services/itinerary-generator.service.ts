@@ -30,4 +30,5 @@ export class ItineraryGeneratorService {
     return this.http
       .post<{ itinerary: string }>('http://localhost:8080/api/itinerary/generate', request, {headers})
   }
+  
 }

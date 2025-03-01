@@ -45,6 +45,7 @@
     <div *ngIf="itinerary" class="itinerary-result">
         <h2>Your Itinerary:</h2>
         <pre>{{ itinerary }}</pre>
+        <button (click)="save_itinerary()"> Save </button>
         <button (click)="refresh_form()"> Go back to form </button>
     </div>
 <div>

@@ -3,6 +3,7 @@ import { ItineraryFormComponent } from './itinerary-form/itinerary-form.componen
 import { CommonModule } from '@angular/common';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserHelperService } from './services/user-helper.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   userDetails: any;
-  userName: String = '';
+  userName: string = '';
 
-  constructor(private oauthService: OAuthService, private http: HttpClient) {}
+  constructor(private oauthService: OAuthService, private http: HttpClient, private userHelperService: UserHelperService) {}
 
   ngOnInit() {
     this.configureOAuth();
@@ -71,20 +72,10 @@ export class AppComponent implements OnInit {
    * ✅ Fetch user details from backend after login
    */
   fetchUserDetails() {
-    const token = this.getToken(); // ✅ Use stored token
-    if (!token) {
-      console.error('No access token found!');
-      return;
-    }
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}` // ✅ Attach token to request
-    });
-
-    this.http.get<{email: String}>('http://localhost:8080/api/user', { headers }).subscribe({
+    this.userHelperService.fetchUserDetails()?.subscribe({
       next: (details) => {
         this.userName = details.email;
+        localStorage.setItem("username", this.userName);
         console.log('User details:', this.userName);
       },
       error: (err) => {
@@ -92,4 +83,5 @@ export class AppComponent implements OnInit {
       }
     });
   }
+    
 }
