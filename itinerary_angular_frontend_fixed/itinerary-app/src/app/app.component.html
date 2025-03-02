@@ -1,0 +1,5 @@
+<button class="logging" *ngIf="!isLoggedIn()" (click)="login()">Login with Google</button>
+  <button class="logging" *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+  <p *ngIf="isLoggedIn() && userName">Welcome, {{ userName }}!</p>
+  <p *ngIf="!userName"> You might need to login again! </p>
+<app-itinerary-form></app-itinerary-form>
